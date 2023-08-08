@@ -1,0 +1,2 @@
+# blog-django
+Django Project
