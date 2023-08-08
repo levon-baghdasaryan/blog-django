@@ -1,7 +1,9 @@
 from django.shortcuts import render
 
+
 def home(request):
     return render(request, 'layouts/home.html')
+
 
 def handler400(request, *args, **kwargs):
     response = render(request, 'errors/400.html')
