@@ -9,7 +9,7 @@ class UserManager(BaseUserManager):
     Creates and saves a User with the given email, date of
     birth and password.
     """
-    def create_user(self, email, first_name, last_name, password=None):
+    def create_user(self, email, first_name, last_name, password=None, **other_fields):
         if not email:
             raise ValueError('Users must have an email address')
 
@@ -25,7 +25,8 @@ class UserManager(BaseUserManager):
         user = self.model(
             email=self.normalize_email(email),
             first_name=first_name,
-            last_name=last_name
+            last_name=last_name,
+            **other_fields
         )
         user.set_password(password)
         user.save(using=self._db)
@@ -42,7 +43,7 @@ class UserManager(BaseUserManager):
             first_name=first_name,
             last_name=last_name
         )
-        user.is_admin = True
+        user.is_superuser = True
         user.is_staff = True
         user.save(using=self._db)
         return user
@@ -55,7 +56,7 @@ class User(AbstractBaseUser):
     email_verified_at = models.DateTimeField(null=True, blank=True)
     is_active = models.BooleanField(default=True)  # can login
     is_staff = models.BooleanField(default=False)  # staff user non superuser
-    is_admin = models.BooleanField(default=False)  # superuser
+    is_superuser = models.BooleanField(default=False)  # superuser
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
